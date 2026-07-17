@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PixelPrompt Studio — Web Design · AI · Software · Consultancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#141416;color:#f2f3f5;font-family:'Space Grotesk',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#3fc6ec;text-decoration:none}
+a:hover{color:#ff8a3d}
+::selection{background:#0a6fd6;color:#fff}
+img{display:block}
+@keyframes ppFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes ppPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes ppMarquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes ppBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes ppGlow{0%,100%{box-shadow:0 0 40px rgba(10,111,214,.25)}50%{box-shadow:0 0 80px rgba(23,182,224,.4)}}
+.wrap{position:relative;overflow-x:clip}
+#pxcanvas{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(20,20,22,.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+nav .brand{display:flex;align-items:center;gap:12px;color:#f2f3f5;font-weight:700;font-size:17px;letter-spacing:.02em}
+nav .brand:hover{color:#f2f3f5}
+.nav-links{display:flex;gap:34px;align-items:center;font-size:14px;font-weight:500}
+.nav-links a{color:#c8cbd2}
+.nav-links a:hover{color:#fff}
+.btn-blue{display:inline-flex;align-items:center;gap:10px;background:#0a6fd6;color:#fff!important;border-radius:8px;font-weight:600;transition:all .2s}
+.btn-blue:hover{background:#1683ee;transform:translateY(-1px)}
+header{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:140px 24px 80px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.28em;text-transform:uppercase}
+h1{font-size:76px;font-weight:700;line-height:1.05;margin:22px 0 0;max-width:900px;letter-spacing:-.02em}
+.grad{background:linear-gradient(90deg,#1683ee,#3fc6ec 55%,#ff8a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cursor{color:#ff8a3d;animation:ppBlink 1.1s step-end infinite}
+.hero-p{font-size:19px;line-height:1.6;color:#a7abb5;max-width:620px;margin:26px 0 0}
+.cta-row{display:flex;gap:16px;margin-top:44px;flex-wrap:wrap;justify-content:center}
+.btn-hero{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border-radius:10px;font-weight:600;font-size:16px;transition:all .2s}
+.btn-wa{background:#0a6fd6;color:#fff!important;animation:ppGlow 4s ease-in-out infinite}
+.btn-wa:hover{background:#1683ee;transform:translateY(-2px)}
+.btn-ig{border:1px solid rgba(255,255,255,.2);color:#f2f3f5!important}
+.btn-ig:hover{border-color:#ff8a3d;color:#ff8a3d!important;transform:translateY(-2px)}
+.dot{width:9px;height:9px;background:#4ade80;border-radius:50%;display:inline-block}
+.ig-icon{width:14px;height:14px;border:2px solid currentColor;border-radius:4px;display:inline-flex;align-items:center;justify-content:center}
+.ig-icon span{width:5px;height:5px;border:2px solid currentColor;border-radius:50%;display:block}
+.marquee{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);overflow:hidden;background:rgba(255,255,255,.02);padding:18px 0}
+.marquee-inner{display:flex;width:max-content;animation:ppMarquee 26s linear infinite;font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.22em;color:#7c818c;text-transform:uppercase}
+.marquee-inner span{white-space:nowrap;padding-right:12px}
+section{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:120px 24px 40px}
+h2{font-size:46px;font-weight:700;margin:14px 0 0;letter-spacing:-.02em}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:56px}
+.card{border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:36px;background:rgba(255,255,255,.025);transition:all .3s}
+.card:hover{border-color:rgba(63,198,236,.45);background:rgba(23,182,224,.05);transform:translateY(-4px)}
+.px-row{display:flex;gap:6px;margin-bottom:26px}
+.px-row span{width:12px;height:12px;display:block;animation:ppPulse 2.4s ease-in-out infinite}
+.px-row span:nth-child(2){animation-delay:.4s}
+.px-row span:nth-child(3){animation-delay:.8s}
+.card .num{font-family:'JetBrains Mono',monospace;font-size:12px;color:#7c818c;letter-spacing:.2em}
+.card h3{font-size:26px;font-weight:600;margin:10px 0 12px}
+.card p{font-size:15.5px;line-height:1.65;color:#a7abb5;margin:0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:56px}
+.step{padding:34px 30px;border-radius:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08)}
+.step .big{font-size:52px;font-weight:700;background:linear-gradient(135deg,#1683ee,#3fc6ec);-webkit-background-clip:text;background-clip:text;color:transparent;font-family:'JetBrains Mono',monospace}
+.step h3{font-size:21px;font-weight:600;margin:14px 0 10px}
+.step p{font-size:15px;line-height:1.65;color:#a7abb5;margin:0}
+#contact{padding-bottom:100px}
+.contact-panel{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:64px 56px;background:linear-gradient(135deg,rgba(10,111,214,.12),rgba(255,138,61,.06));backdrop-filter:blur(6px)}
+.contact-panel h2{font-size:44px;margin:16px 0 18px;line-height:1.1}
+.contact-panel .lead{font-size:17px;line-height:1.65;color:#a7abb5;margin:0;max-width:440px}
+.contact-btns{display:flex;flex-direction:column;gap:16px;justify-content:center}
+.row-btn{display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-radius:12px;font-weight:600;font-size:17px;transition:all .2s}
+.row-btn small{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:400}
+.row-wa{background:#128c4b;color:#fff!important}
+.row-wa:hover{background:#16a457;transform:translateY(-2px)}
+.row-out{border:1px solid rgba(255,255,255,.2);color:#f2f3f5!important}
+.row-out.cyan:hover{border-color:#3fc6ec;color:#3fc6ec!important;transform:translateY(-2px)}
+.row-out.orange:hover{border-color:#ff8a3d;color:#ff8a3d!important;transform:translateY(-2px)}
+footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.07);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:translateY(0)}
+@media(max-width:900px){.nav-links{display:none}h1{font-size:44px}.grid4,.grid3,.contact-panel{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<canvas id="pxcanvas"></canvas>
+
+<nav>
+  <a href="#top" class="brand"><img src="assets/logo-mark.png" alt="PixelPrompt" style="height:30px;width:auto"><span>pixelprompt<span style="color:#3fc6ec">.studio</span></span></a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+    <a href="https://wa.me/919460074404" target="_blank" rel="noopener" class="btn-blue" style="padding:10px 20px">Let's talk →</a>
+  </div>
+</nav>
+
+<header id="top">
+  <div style="animation:ppFloat 6s ease-in-out infinite"><img src="assets/logo-mark.png" alt="PixelPrompt Studio logo" style="width:180px;height:auto;filter:drop-shadow(0 0 40px rgba(23,182,224,.35))"></div>
+  <div class="eyebrow" style="color:#3fc6ec;margin-top:42px">Web Design · AI · Software · Consultancy</div>
+  <h1>From pixel to prompt,<br>we build what's <span class="grad">next</span><span class="cursor">_</span></h1>
+  <p class="hero-p">A studio crafting fast websites, intelligent AI products, and software that ships — with consultancy to steer it all in the right direction.</p>
+  <div class="cta-row">
+    <a href="https://wa.me/919460074404" target="_blank" rel="noopener" class="btn-hero btn-wa"><span class="dot"></span>Chat on WhatsApp</a>
+    <a href="https://www.instagram.com/pixelprompt.studio/" target="_blank" rel="noopener" class="btn-hero btn-ig"><span class="ig-icon"><span></span></span>Instagram</a>
+  </div>
+</header>
+
+<div class="marquee"><div class="marquee-inner">
+  <span>Web Design <b style="color:#ff8a3d">■</b> AI Solutions <b style="color:#1683ee">■</b> Software Development <b style="color:#3fc6ec">■</b> Tech Consultancy <b style="color:#ff8a3d">■</b> UI/UX <b style="color:#1683ee">■</b> Automation <b style="color:#3fc6ec">■</b>&nbsp;</span>
+  <span>Web Design <b style="color:#ff8a3d">■</b> AI Solutions <b style="color:#1683ee">■</b> Software Development <b style="color:#3fc6ec">■</b> Tech Consultancy <b style="color:#ff8a3d">■</b> UI/UX <b style="color:#1683ee">■</b> Automation <b style="color:#3fc6ec">■</b>&nbsp;</span>
+</div></div>
+
+<section id="services">
+  <div class="reveal">
+    <div class="eyebrow" style="color:#ff8a3d;font-size:12px">// What we do</div>
+    <h2>Four disciplines.<br>One studio.</h2>
+  </div>
+  <div class="grid4">
+    <div class="card reveal"><div class="px-row"><span style="background:#1683ee"></span><span style="background:#3fc6ec"></span><span style="background:#ff8a3d"></span></div><div class="num">01</div><h3>Web Design</h3><p>Pixel-perfect, blazing-fast websites that convert. From landing pages to full brand experiences — designed to look stunning on every screen.</p></div>
+    <div class="card reveal"><div class="px-row"><span style="background:#ff8a3d"></span><span style="background:#1683ee"></span><span style="background:#3fc6ec"></span></div><div class="num">02</div><h3>AI Solutions</h3><p>Chatbots, automation, and AI-powered products built on modern LLMs. We turn prompts into production — practical AI that saves real hours.</p></div>
+    <div class="card reveal"><div class="px-row"><span style="background:#3fc6ec"></span><span style="background:#ff8a3d"></span><span style="background:#1683ee"></span></div><div class="num">03</div><h3>Software Development</h3><p>Web apps, dashboards, APIs and integrations — clean architecture, modern stacks, and code your future team will thank you for.</p></div>
+    <div class="card reveal"><div class="px-row"><span style="background:#1683ee"></span><span style="background:#ff8a3d"></span><span style="background:#3fc6ec"></span></div><div class="num">04</div><h3>Consultancy</h3><p>Not sure what to build, or how? We audit, plan and de-risk your tech decisions so every rupee of your budget works harder.</p></div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="reveal" style="text-align:center">
+    <div class="eyebrow" style="color:#3fc6ec;font-size:12px">// How we work</div>
+    <h2>Simple, sharp, shipped.</h2>
+  </div>
+  <div class="grid3">
+    <div class="step reveal"><div class="big">01</div><h3>Discover</h3><p>A quick call or WhatsApp chat to understand your goals, users and constraints. No jargon, no 40-page briefs.</p></div>
+    <div class="step reveal"><div class="big">02</div><h3>Design &amp; Build</h3><p>Rapid iterations you can see and react to. You watch the product take shape instead of waiting for a big reveal.</p></div>
+    <div class="step reveal"><div class="big">03</div><h3>Ship &amp; Support</h3><p>We launch, measure and stay close. Tweaks, training and support so the product keeps earning after day one.</p></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-panel reveal">
+    <div>
+      <div class="eyebrow" style="color:#ff8a3d;font-size:12px">// Start a project</div>
+      <h2>Have an idea?<br>Let's make it real.</h2>
+      <p class="lead">One message is all it takes. Tell us what you're building — we'll reply with how we'd build it.</p>
+    </div>
+    <div class="contact-btns">
+      <a href="https://wa.me/919460074404" target="_blank" rel="noopener" class="row-btn row-wa"><span>WhatsApp us</span><small>+91 94600 74404</small></a>
+      <a href="tel:+919460074404" class="row-btn row-out cyan"><span>Call us</span><small>+91 94600 74404</small></a>
+      <a href="https://www.instagram.com/pixelprompt.studio/" target="_blank" rel="noopener" class="row-btn row-out orange"><span>Follow the work</span><small>@pixelprompt.studio</small></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:10px"><img src="assets/logo-mark.png" alt="" style="height:22px;width:auto;opacity:.8"><span style="font-size:14px;color:#7c818c">© 2026 PixelPrompt Studio</span></div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#7c818c;letter-spacing:.08em">pixelprompt.studio — design · code · intelligence</div>
+</footer>
+</div>
+
+<script>
+(function(){
+  // scroll reveals with fallbacks
+  var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  function reveal(el){ el.classList.add('on'); el.dataset.revealed='1'; }
+  function check(){ var vh = window.innerHeight||800; els.forEach(function(el){ if(!el.dataset.revealed && el.getBoundingClientRect().top < vh*1.05) reveal(el); }); }
+  try {
+    var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting && !e.target.dataset.revealed){ reveal(e.target); io.unobserve(e.target); } }); }, {threshold:.12});
+    els.forEach(function(el){ io.observe(el); });
+  } catch(err){}
+  window.addEventListener('scroll', check, {passive:true});
+  setTimeout(check, 100);
+  setTimeout(function(){ els.forEach(function(el){ if(!el.dataset.revealed) reveal(el); }); }, 2500);
+
+  // pixel-field canvas
+  var cv = document.getElementById('pxcanvas'), ctx = cv.getContext('2d');
+  var colors = ['#1683ee','#3fc6ec','#ff8a3d','#0a6fd6'];
+  var px = [], W = 0, H = 0, sy = 0;
+  function resize(){
+    W = cv.width = window.innerWidth; H = cv.height = window.innerHeight;
+    px = [];
+    for (var i=0;i<55;i++) px.push({ x:Math.random()*W, y:Math.random()*H, s:3+Math.random()*9, v:.1+Math.random()*.35, c:colors[Math.floor(Math.random()*colors.length)], p:Math.random()*Math.PI*2, ps:.004+Math.random()*.012 });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  window.addEventListener('scroll', function(){ sy = window.scrollY; }, {passive:true});
+  (function tick(){
+    ctx.clearRect(0,0,W,H);
+    for (var i=0;i<px.length;i++){
+      var q = px[i];
+      q.y -= q.v; q.p += q.ps;
+      if (q.y < -12){ q.y = H+12; q.x = Math.random()*W; }
+      ctx.globalAlpha = .06 + .20*(0.5+0.5*Math.sin(q.p));
+      ctx.fillStyle = q.c;
+      var yy = q.y - sy*.06*(q.s/12);
+      ctx.fillRect(Math.round(q.x), Math.round(((yy%(H+24))+H+24)%(H+24)-12), q.s, q.s);
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+</body>
+</html>
